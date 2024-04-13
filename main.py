@@ -1,6 +1,7 @@
 import numpy as np
 import nanocamera as nano
 import cv2
+import time
 
 # cams_test = 10
 # for i in range(0, cams_test):
@@ -37,7 +38,8 @@ while(True):
   
     # Display the resulting frame 
     cv2.imshow('frame', frame) 
-      
+    cv2.imwrite("test.jpg", frame)
+    time.sleep(30)
     # the 'q' button is set as the 
     # quitting button you may use any 
     # desired button of your choice 
