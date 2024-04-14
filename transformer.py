@@ -1,63 +1,84 @@
-from transformers import pipeline, DetrImageProcessor, DetrForObjectDetection
-import os
-import torch
 import cv2
-import supervision as sv
 from PIL import Image
+from transformers import pipeline, DetrImageProcessor, DetrForObjectDetection
+import torch
 import numpy as np
-import time
+import supervision as sv
+import os
+from threading import Thread
+from queue import Queue
+import sys
 
-import matplotlib.pyplot as plt
-
+q_parent_to_child = Queue()
+q_child_to_parent = Queue()
+q_child_to_parent.maxsize = 5
 
 HOME = os.getcwd()
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+CHECKPOINT = "facebook/detr-resnet-50"
+CONFIDENCE_THRESHOLD = 0.5
+IOU_THRESHOLD = 0.8
 
-# Load the image using PIL (Python Imaging Library)
+image_processor = DetrImageProcessor.from_pretrained(CHECKPOINT)
+model = DetrForObjectDetection.from_pretrained(CHECKPOINT)
+model.to(DEVICE)
 
+box_annotator = sv.BoxAnnotator()
 vid = cv2.VideoCapture(0)
-while True:
-    ret, frame = vid.read()
-    cv2.imwrite("test.jpg", frame)
-    img_path = os.path.join(HOME, "test.jpg")
 
-    DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    CHECKPOINT = "facebook/detr-resnet-50"
-    CONFIDENCE_THRESHOLD = 0.5
-    IOU_THRESHOLD = 0.8
+def thread_function():
+    while (True):
+        if q_parent_to_child.empty():
+            continue
+        while not q_parent_to_child.empty():
+            frame = q_parent_to_child.get()
+            # with torch.no_grad():
+            #     inputs = image_processor(images=frame, return_tensors="pt").to(DEVICE)
+            #     outputs = model(**inputs)
 
-    image_processor = DetrImageProcessor.from_pretrained(CHECKPOINT)
-    model = DetrForObjectDetection.from_pretrained(CHECKPOINT)
-    model.to(DEVICE)
+            #     target_sizes = torch.tensor([frame.shape[:2]]).to(DEVICE)
+            #     results = image_processor.post_process_object_detection(
+            #         outputs=outputs, threshold=CONFIDENCE_THRESHOLD, target_sizes=target_sizes
+            #     )[0]
 
-    with torch.no_grad():
-        # LOAD IMAGE AND PREDICT
-        image = cv2.imread(img_path)
-        inputs = image_processor(images=image, return_tensors="pt").to(DEVICE)
-        outputs = model(**inputs)
+            # detect = sv.Detections.from_transformers(transformers_results=results)
 
-        target_sizes = torch.tensor([image.shape[:2]]).to(DEVICE)
-        results = image_processor.post_process_object_detection(
-            outputs=outputs, threshold=CONFIDENCE_THRESHOLD, target_sizes=target_sizes
-        )[0]
+            # ml_labels = []
+            # for id, confidence in zip(detect.class_id, detect.confidence):
+            #     string = str(model.config.id2label[id]) + " " + str(confidence)
+            #     ml_labels.append(string)
 
-    detect = sv.Detections.from_transformers(transformers_results=results)
+            # frame = box_annotator.annotate(scene=frame, detections=detect, labels=ml_labels)
+            while(q_child_to_parent.full()):
+                pass
+            q_child_to_parent.put_nowait(frame)
 
+thread = Thread(target=thread_function, daemon=True)
+thread.start()
+count = 0
+fps = 24
+delay = 1000 // fps
 
-    ml_labels = []
-    for id,confidence in zip(detect.class_id, detect.confidence):
-        string = str(model.config.id2label[id]) + " " + str(confidence)
-        ml_labels.append(string)
+try:
+    while True:
+        # if count % 5 != 0:
+        #     continue
+        
+        if (q_child_to_parent.full()):
+            while not q_child_to_parent.empty():
+                cv2.imshow('Live Object Detection', q_child_to_parent.get())
+        else:
+            ret, frame = vid.read()
+            count+=1
+            if not ret:
+                break
+            q_parent_to_child.put(frame)
 
-    box_annotator = sv.BoxAnnotator()
-    frame = box_annotator.annotate(scene=image, detections=detect,labels=ml_labels)
+            
+        # if cv2.waitKey(delay) & 0xFF == ord('q'):
+        #     break
+finally:
+    thread.join()
+    vid.release()
+    cv2.destroyAllWindows()
 
-    # Assuming frame is a PIL Image object
-    plt.imshow(frame)
-    plt.axis("off")  # Turn off axis
-    plt.show()
-
-    classifier = pipeline("object-detection")
-    results = classifier(img_path)
-
-    # print(results)
-    time.sleep(1)

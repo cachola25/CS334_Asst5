@@ -29,17 +29,16 @@ import time
 #     cv2.destroyAllWindows() 
 
 vid = cv2.VideoCapture(0) 
-  
 while(True): 
       
     # Capture the video frame 
     # by frame 
-    ret, frame = vid.read() 
+    ret,frame = vid.read()
   
     # Display the resulting frame 
     cv2.imshow('frame', frame) 
     cv2.imwrite("test.jpg", frame)
-    time.sleep(30)
+    
     # the 'q' button is set as the 
     # quitting button you may use any 
     # desired button of your choice 
@@ -47,6 +46,6 @@ while(True):
         break
   
 # After the loop release the cap object 
-vid.release() 
+vid.release()
 # Destroy all the windows 
-cv2.destroyAllWindows() 
+cv2.destroyAllWindows()
