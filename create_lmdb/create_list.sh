@@ -3,7 +3,7 @@
 # This file is used to create the list of train and test files for training and testing procedures. After the run trainval.txt, test.txt and test_name_size.txt files will be generated. These files map each image to its label file.
 
 # Modify the 'data_root_dir' to the location where your Images and Labels folders exist.
-data_root_dir=C:/Users/Keoni/Desktop/CS334_Asst5/CS334_Asst5REAL/CS334_Asst5/create_lmdb/Dataset/   # Modify the path with your folder having Images and Labels directories.
+data_root_dir='/Users/jayvencachola/Documents/CS334/hw5/CS334_Asst5/create_lmdb/Dataset'   # Modify the path with your folder having Images and Labels directories.
 
 current_dir=`pwd`
 echo "current_dir: "${current_dir}
@@ -67,9 +67,8 @@ done
 for i in ${arr[@]:${boundry}:((${length_imgs}-${boundry}))}
 do
 	line=`sed -n -e "${i}p" ${dst_all_tmp}|cut -d ' ' -f 1`
-	size=`identify ${data_root_dir}${line}|cut -d ' ' -f 3|sed -e "s/x/ /" | sed -r 's/([^ ]+) (.*)/\2 \1/'`
-	echo ${line}
-	name=`basename ${line} .png`
+	size=`identify ${data_root_dir}/${line}|cut -d ' ' -f 3|sed -e "s/x/ /" | sed -r 's/([^ ]+) (.*)/\2 \1/'`
+	name=`basename ${line} .jpg`
 	echo ${name}" "${size} >> ${dst_file_test_name_size}
 	sed -n "${i}p" ${dst_all_tmp} >> ${dst_file_test}
 done

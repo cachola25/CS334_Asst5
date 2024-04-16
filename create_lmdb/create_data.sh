@@ -6,7 +6,7 @@ cd $root_dir
 
 redo=1
 
-data_root_dir=C:\Users\Keoni\Desktop\CS334_Asst5\CS334_Asst5REAL\CS334_Asst5\create_lmdb\Dataset  # Modify the path with your folder having Images and Labels directories.
+data_root_dir='/Users/jayvencachola/Documents/CS334/hw5/CS334_Asst5/create_lmdb/Dataset'  # Modify the path with your folder having Images and Labels directories.
 
 dataset_name="Main"  # This will be directory holding train and test LMDBs
 
@@ -31,6 +31,6 @@ then
 fi
 for subset in test trainval
 do
-  python /home/vkchcp0013/Documents/mobile-ssd/caffe/scripts/create_annoset.py --anno-type=$anno_type --label-type=$label_type --label-map-file=$mapfile --min-dim=$min_dim --max-dim=$max_dim --resize-width=$width --resize-height=$height --check-label $extra_cmd $data_root_dir $root_dir/$subset.txt $data_root_dir/$dataset_name/$db/$dataset_name"_"$subset"_"$db examples/$dataset_name
+  python3 /home/vkchcp0013/Documents/mobile-ssd/caffe/scripts/create_annoset.py --anno-type=$anno_type --label-type=$label_type --label-map-file=$mapfile --min-dim=$min_dim --max-dim=$max_dim --resize-width=$width --resize-height=$height --check-label $extra_cmd $data_root_dir $root_dir/$subset.txt $data_root_dir/$dataset_name/$db/$dataset_name"_"$subset"_"$db examples/$dataset_name
 done
 
