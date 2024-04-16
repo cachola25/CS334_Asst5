@@ -11,7 +11,7 @@ import sys
 
 q_parent_to_child = Queue()
 q_child_to_parent = Queue()
-q_child_to_parent.maxsize = 5
+q_child_to_parent.maxsize = 60
 
 HOME = os.getcwd()
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -61,9 +61,9 @@ delay = 1000 // fps
 
 try:
     while True:
-        # if count % 5 != 0:
-        #     continue
-        
+        if count % 5 != 0:
+            continue
+        print(count)
         if (q_child_to_parent.full()):
             while not q_child_to_parent.empty():
                 cv2.imshow('Live Object Detection', q_child_to_parent.get())
@@ -75,8 +75,8 @@ try:
             q_parent_to_child.put(frame)
 
             
-        # if cv2.waitKey(delay) & 0xFF == ord('q'):
-        #     break
+        if cv2.waitKey(delay) & 0xFF == ord('q'):
+            break
 finally:
     thread.join()
     vid.release()
