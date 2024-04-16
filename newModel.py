@@ -20,7 +20,7 @@ colors = np.random.uniform(0, 255, size=(len(classes),3))
 net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 
 while True:
@@ -46,7 +46,7 @@ while True:
                 lower_right_x = int(detected_objects[0, 0, i, 5] * width)
                 lower_right_y = int(detected_objects[0, 0, i, 6] * height)
 
-                prediction_text = f"{classes[class_index]}: {confidence:.2f}"
+                prediction_text = f'{classes[class_index]}: {confidence:.2f}'
                 cv2.rectangle(image, (upper_left_x, upper_left_y), (lower_right_x, lower_right_y), colors[class_index], 3)
                 cv2.putText(image, prediction_text, (upper_left_x, 
                             upper_left_y - 15 if upper_left_y > 30 else upper_left_y+ 15), 

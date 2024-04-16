@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>Australian-Sign-Language_-Alphabet_mp4-159_jpg.rf.6a871386bd2430c1f4c82fb53c002509.jpg</filename>
+	<path>Australian-Sign-Language_-Alphabet_mp4-159_jpg.rf.6a871386bd2430c1f4c82fb53c002509.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>N</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>52</xmin>
+			<xmax>217</xmax>
+			<ymin>150</ymin>
+			<ymax>471</ymax>
+		</bndbox>
+	</object>
+</annotation>

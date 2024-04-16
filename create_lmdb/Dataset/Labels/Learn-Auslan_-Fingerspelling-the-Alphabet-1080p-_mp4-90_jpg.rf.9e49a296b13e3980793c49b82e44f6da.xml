@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>Learn-Auslan_-Fingerspelling-the-Alphabet-1080p-_mp4-90_jpg.rf.9e49a296b13e3980793c49b82e44f6da.jpg</filename>
+	<path>Learn-Auslan_-Fingerspelling-the-Alphabet-1080p-_mp4-90_jpg.rf.9e49a296b13e3980793c49b82e44f6da.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>I</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>423</xmin>
+			<xmax>510</xmax>
+			<ymin>357</ymin>
+			<ymax>516</ymax>
+		</bndbox>
+	</object>
+</annotation>
