@@ -24,13 +24,13 @@ model = DetrForObjectDetection.from_pretrained(CHECKPOINT)
 model.to(DEVICE)
 
 box_annotator = sv.BoxAnnotator()
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture(1)
 
 def thread_function():
     while (True):
-        if q_parent_to_child.empty():
-            continue
-        while not q_parent_to_child.empty():
+        # if q_parent_to_child.empty():
+        #     continue
+        # while not q_parent_to_child.empty():
             frame = q_parent_to_child.get()
             # with torch.no_grad():
             #     inputs = image_processor(images=frame, return_tensors="pt").to(DEVICE)
@@ -49,9 +49,10 @@ def thread_function():
             #     ml_labels.append(string)
 
             # frame = box_annotator.annotate(scene=frame, detections=detect, labels=ml_labels)
-            while(q_child_to_parent.full()):
-                pass
-            q_child_to_parent.put_nowait(frame)
+            frame = cv2.resize(frame, (640, 480))  # Resize to 640x480 for display
+        
+        # Put the processed frame into the output queue
+            q_child_to_parent.put(frame)
 
 thread = Thread(target=thread_function, daemon=True)
 thread.start()
@@ -59,23 +60,20 @@ count = 0
 fps = 24
 delay = 1000 // fps
 
+
 try:
     while True:
-        if count % 5 != 0:
-            continue
-        print(count)
-        if (q_child_to_parent.full()):
-            while not q_child_to_parent.empty():
-                cv2.imshow('Live Object Detection', q_child_to_parent.get())
-        else:
-            ret, frame = vid.read()
-            count+=1
-            if not ret:
-                break
-            q_parent_to_child.put(frame)
-
-            
-        if cv2.waitKey(delay) & 0xFF == ord('q'):
+        ret, frame = vid.read()
+        if not ret:
+            break
+        
+        q_parent_to_child.put(frame)  # Put frame into the processing queue
+        
+        if not q_child_to_parent.empty():
+            # Display the processed frame from the output queue
+            cv2.imshow('Live Object Detection', q_child_to_parent.get())
+        
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 finally:
     thread.join()
