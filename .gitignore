@@ -1,3 +1,4 @@
 /myenv
 /venv
-/create_lmdb/Dataset
+/create_lmdb/Dataset/Images
+/create_lmdb/Dataset/Labels
