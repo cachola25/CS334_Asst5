@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>l_png_jpg.rf.b1caf0b96f26be06752416d608011f73.jpg</filename>
+	<path>l_png_jpg.rf.b1caf0b96f26be06752416d608011f73.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>L</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>290</xmin>
+			<xmax>494</xmax>
+			<ymin>300</ymin>
+			<ymax>641</ymax>
+		</bndbox>
+	</object>
+</annotation>

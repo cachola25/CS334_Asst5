@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>Learn-the-Auslan-Alphabet-For-Right-Handed-People-1080p60-_mp4-150_jpg.rf.45577867190c3a2e8cb698c16e003e5c.jpg</filename>
+	<path>Learn-the-Auslan-Alphabet-For-Right-Handed-People-1080p60-_mp4-150_jpg.rf.45577867190c3a2e8cb698c16e003e5c.jpg</path>
+	<source>
+		<database>roboflow.com</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>640</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>N</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>297</xmin>
+			<xmax>398</xmax>
+			<ymin>181</ymin>
+			<ymax>481</ymax>
+		</bndbox>
+	</object>
+</annotation>
