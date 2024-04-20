@@ -5,19 +5,17 @@ import torch
 import numpy as np
 import supervision as sv
 import os
+from ultralytics import YOLO
 
 HOME = os.getcwd()
-DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-CHECKPOINT = "facebook/detr-resnet-50"
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+MODEL_PATH = "./runs/detect/train10/weights/best.pt"
 CONFIDENCE_THRESHOLD = 0.5
 IOU_THRESHOLD = 0.8
 
-image_processor = DetrImageProcessor.from_pretrained(CHECKPOINT)
-model = DetrForObjectDetection.from_pretrained(CHECKPOINT)
-model.to(DEVICE)
+model = YOLO(MODEL_PATH)
 
 box_annotator = sv.BoxAnnotator()
-
 vid = cv2.VideoCapture(0)
 
 try:
@@ -26,16 +24,9 @@ try:
         if not ret:
             break
 
-        with torch.no_grad():
-            inputs = image_processor(images=frame, return_tensors="pt").to(DEVICE)
-            outputs = model(**inputs)
 
-            target_sizes = torch.tensor([frame.shape[:2]]).to(DEVICE)
-            results = image_processor.post_process_object_detection(
-                outputs=outputs, threshold=CONFIDENCE_THRESHOLD, target_sizes=target_sizes
-            )[0]
 
-        detect = sv.Detections.from_transformers(transformers_results=results)
+        detect = model(source=frame,show=True,conf=0.6,save_txt=True)
 
         ml_labels = []
         for id, confidence in zip(detect.class_id, detect.confidence):
