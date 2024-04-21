@@ -1,21 +1,15 @@
 import cv2
-from PIL import Image
-from transformers import pipeline, DetrImageProcessor, DetrForObjectDetection
-import torch
-import numpy as np
-import supervision as sv
 import os
 from ultralytics import YOLO
 
 HOME = os.getcwd()
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-MODEL_PATH = "./runs/detect/train10/weights/best.pt"
-CONFIDENCE_THRESHOLD = 0.5
+MODEL_PATH = "./runs/detect/train12/weights/best.pt"
+CONFIDENCE_THRESHOLD = 0.0
 IOU_THRESHOLD = 0.8
 
 model = YOLO(MODEL_PATH)
+# model = YOLO("yolov8n.pt")
 
-box_annotator = sv.BoxAnnotator()
 vid = cv2.VideoCapture(0)
 
 try:
@@ -23,18 +17,21 @@ try:
         ret, frame = vid.read()
         if not ret:
             break
+        result = model(frame)[0]
+        
+        for res in result.boxes.data.tolist():
+            x1 = int(res[0])
+            y1 = int(res[1])
+            x2 = int(res[2])
+            y2 = int(res[3])
+            score = int(res[4])
+            class_id = int(res[5])
 
+            if score >= CONFIDENCE_THRESHOLD:
+                cv2.rectangle(frame,(x1,y1),(x2,y2),(0,255,0),2)
+                cv2.putText(frame,result.names[class_id].upper(),(x1,y1-10),cv2.FONT_HERSHEY_SIMPLEX,1.3,(0,255,0),3,cv2.LINE_AA)
 
-
-        detect = model(source=frame,show=True,conf=0.6,save_txt=True)
-
-        ml_labels = []
-        for id, confidence in zip(detect.class_id, detect.confidence):
-            string = str(model.config.id2label[id]) + " " + str(confidence)
-            ml_labels.append(string)
-
-        frame = box_annotator.annotate(scene=frame, detections=detect, labels=ml_labels)
-
+        
         cv2.imshow('Live Object Detection', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
