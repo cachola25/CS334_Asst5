@@ -1,8 +1,8 @@
 
-ASL Prediction - v1 2023-10-01 10:22am
+CV2 - v8 2024-01-05 5:10pm
 ==============================
 
-This dataset was exported via roboflow.com on February 20, 2024 at 5:13 AM GMT
+This dataset was exported via roboflow.com on April 21, 2024 at 1:07 PM GMT
 
 Roboflow is an end-to-end computer vision platform that helps you
 * collaborate with your team on computer vision projects
@@ -17,21 +17,15 @@ visit https://github.com/roboflow/notebooks
 
 To find over 100k other datasets and pre-trained models, visit https://universe.roboflow.com
 
-The dataset includes 732 images.
-ASL-letters. are annotated in YOLOv8 Oriented Object Detection format.
+The dataset includes 8802 images.
+Hands are annotated in YOLOv8 Oriented Object Detection format.
 
 The following pre-processing was applied to each image:
 * Auto-orientation of pixel data (with EXIF-orientation stripping)
 * Resize to 640x640 (Stretch)
 
 The following augmentation was applied to create 3 versions of each source image:
-* Random rotation of between -15 and +15 degrees
-* Random exposure adjustment of between -25 and +25 percent
-* Salt and pepper noise was applied to 5 percent of pixels
-
-The following transformations were applied to the bounding boxes of each image:
-* Randomly crop between 0 and 20 percent of the bounding box
-* Random rotation of between -15 and +15 degrees
-* Random Gaussian blur of between 0 and 2.5 pixels
+* Randomly crop between 0 and 20 percent of the image
+* Random brigthness adjustment of between -10 and +10 percent
 
 

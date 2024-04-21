@@ -1,5 +1,5 @@
-# ASL Prediction > 2023-10-01 10:22am
-https://universe.roboflow.com/pasha-khoshkebari-ypvgn/asl-prediction
+# CV2 > 2024-01-05 5:10pm
+https://universe.roboflow.com/221565zcv/cv2-a4ryn
 
 Provided by a Roboflow user
 License: CC BY 4.0
