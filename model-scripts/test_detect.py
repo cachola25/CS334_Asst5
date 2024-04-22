@@ -4,11 +4,11 @@ import cv2
 import os
 import random
 
-model = YOLO('runs/obb/train20/weights/best.pt')
+model = YOLO(f"runs{os.path.sep}obb{os.path.sep}train20{os.path.sep}weights{os.path.sep}best.pt")
 
 
-random_file = random.choice(os.listdir(f"CV2-9/test/images"))
-file_name = os.path.join(f"CV2-9/test/images", random_file)
+random_file = random.choice(os.listdir(f"CV2-9{os.path.sep}test{os.path.sep}images"))
+file_name = os.path.join(f"CV2-9{os.path.sep}test{os.path.sep}images", random_file)
 
 results = model(file_name)
 
