@@ -1,9 +1,11 @@
 from roboflow import Roboflow
 import os 
+
+model_dir = f"../model-scripts{os.path.sep}CV2-9"
 rf = Roboflow(api_key="pC0yrwt8JMUBIA3czOnY")
 project = rf.workspace("221565zcv").project("cv2-a4ryn")
 version = project.version(9)
-dataset = version.download("yolov8-obb")
+dataset = version.download("yolov8-obb",location=model_dir)
 
 class_names = [
     "-", "A", "B", "C", "D", "E", "F", "G", "H", "I",
@@ -15,9 +17,9 @@ class_indicies = {name: index for index, name in enumerate(class_names)}
 img_width, img_height = 640,640
 
 ## PATH TO ANNOTATION FILES
-valid_folder_path = f'..{os.path.sep}model-scripts{os.path.sep}CV2-9{os.path.sep}valid{os.path.sep}labels'
-train_folder_path = f'..{os.path.sep}model-scripts{os.path.sep}CV2-9{os.path.sep}train{os.path.sep}labels'
-labels_folder_path = f'..{os.path.sep}model-scripts{os.path.sep}CV2-9{os.path.sep}test{os.path.sep}labels'
+valid_folder_path = f'{model_dir}{os.path.sep}valid{os.path.sep}labels'
+train_folder_path = f'{model_dir}{os.path.sep}train{os.path.sep}labels'
+labels_folder_path = f'{model_dir}{os.path.sep}test{os.path.sep}labels'
 
 
 ## NORMALIZES COORDINATES
