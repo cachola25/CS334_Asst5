@@ -2,3 +2,4 @@
 /venv
 /create_lmdb/myenv
 .DS_Store
+/venv
