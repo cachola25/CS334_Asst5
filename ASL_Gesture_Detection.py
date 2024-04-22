@@ -41,7 +41,7 @@ class_names = [
     "T", "U", "V", "W", "X", "Y", "Z"
 ]
 HOME = os.getcwd()
-MODEL_PATH = "./runs/obb/train20/weights/best.pt"
+MODEL_PATH = f".{os.path.sep}runs{os.path.sep}obb{os.path.sep}train20{os.path.sep}weights{os.path.sep}best.pt"
 CONFIDENCE_THRESHOLD = 0.6
 
 model = YOLO(MODEL_PATH)
