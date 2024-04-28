@@ -11,7 +11,7 @@ class_names = [
 MODEL_PATH = "./best.pt"
 
 # Set confidence threshold to only show predictions with a confidence of 80% or higher
-CONFIDENCE_THRESHOLD = 0.8
+CONFIDENCE_THRESHOLD = 0.7
 
 # Load the model and make predictions on the webcam feed
 model = YOLO(MODEL_PATH)
