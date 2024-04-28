@@ -1,6 +1,8 @@
 import torch
 from ultralytics import YOLO
 import os
+
+# Check if CUDA is available on the system
 if torch.cuda.is_available():
     # CUDA is available
     device = torch.device("cuda")
@@ -15,8 +17,10 @@ else:
 
 
 
-# Load a model
-model = YOLO("yolov8n-obb.pt")
+# Create a model to train
+model = YOLO("yolov8n-obb.yaml")
 model.to(device)
+
+# Train the model
 results = model.train(data=f".{os.path.sep}CV2-9{os.path.sep}data.yaml", epochs=11, imgsz=640)
 metrics = model.val()

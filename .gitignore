@@ -3,3 +3,4 @@
 /create_lmdb/myenv
 .DS_Store
 /model-scripts/CV2-9
+/runs
